@@ -11,24 +11,24 @@
 #
 
 # current semantic version number, cf. https://semver.org
-version: 1.0.0
+version: 0.1.0
 
 # plain name as used in the module repository URL, will be prefixed with "opal-"
 # where necessary
-name: mymodule
+name: localstorage
 
 # styled name including capitalisation etc., will be prefixed with "Opal."
 # where necessary
-nameStyled: MyModule
+nameStyled: LocalStorage
 
 # very short description of this module: must be plain text without formatting
 # and should be as short as possible. This text may be used as the description
 # of a Git repository, and is used in documentation.
-briefDescription: QML module for TODO in Sailfish apps
+briefDescription: QML module for simple databases in Sailfish apps
 
 # description of this module: may use rich text and will be translated in
 # Opal Gallery. Line breaks can included with '\n' but should be avoided.
-description: This module provides TODO.
+description: This module provides a set of tools for handling local databases safely and extensibly.
 
 # colon-separated list of attribution strings for the whole module, in the same
 # form as SPDX FileCopyrightText entries
