@@ -86,7 +86,7 @@ function _notify(event, busy, data, __handle) {
         } catch(e) {
             console.error(_lc + "sending the status signal failed:",
                           "\n   ERROR  >", e,
-                          "\n   STACK  >\n", e.stack);
+                          "\n   STACK  >\n", e.stack)
         }
     }
 
@@ -148,33 +148,33 @@ function isSameValue(x, y) {
     // - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
     // - https://github.com/zloirock/core-js/blob/master/packages/core-js/internals/same-value.js
     // - https://stackoverflow.com/a/48300450
-    return x === y ? x !== 0 || 1 / x === 1 / y : x !== x && y !== y;
+    return x === y ? x !== 0 || 1 / x === 1 / y : x !== x && y !== y
 }
 
 function getDatabase() {
     if (!dbOk) {
         console.error("database is not available, check previous logs")
-        throw new Error("database is not available, check previous logs");
+        throw new Error("database is not available, check previous logs")
     }
 
     if (!__initialized || __db === null) {
         console.log("initializing database...")
         __db = LS.LocalStorage.openDatabaseSync(
-            dbName, "", dbDescription, dbSize);
+            dbName, "", dbDescription, dbSize)
 
         if (__doInit(__db)) {
-            __initialized = true;
-            dbOk = true;
+            __initialized = true
+            dbOk = true
 
             if (enableAutoMaintenance) {
-                __doDatabaseMaintenance();
+                __doDatabaseMaintenance()
             }
         } else {
-            dbOk = false;
+            dbOk = false
         }
     }
 
-    return __db;
+    return __db
 }
 
 function readQuery(query, values) {
@@ -193,7 +193,7 @@ function guardedTx(tx, callback) {
 
         console.error("guarded transaction failed:",
                       "\n   ERROR  >", e,
-                      "\n   CALLER >", e.stack);
+                      "\n   CALLER >", e.stack)
         throw e
     }
 
@@ -212,19 +212,19 @@ function simpleQuery(query, values, readOnly) {
     // transaction must be enclosed in a throw/catch block and perform
     // either ROLLBACK or SAVEPOINT <name> with ROLLBACK TO <name> when needed.
 
-    var db = getDatabase();
+    var db = getDatabase()
     var res = {
         ok: false,
         rowsAffected: 0,
         insertId: undefined,
         rows: []
-    };
+    }
 
-    values = defaultFor(values, []);
+    values = defaultFor(values, [])
 
     if (!query) {
-        console.error("bug: cannot execute an empty database query");
-        return res;
+        console.error("bug: cannot execute an empty database query")
+        return res
     }
 
     try {
@@ -243,14 +243,14 @@ function simpleQuery(query, values, readOnly) {
             }
 
             if (rs.rowsAffected > 0) {
-                res.rowsAffected = rs.rowsAffected;
+                res.rowsAffected = rs.rowsAffected
             } else {
-                res.rowsAffected = 0;
+                res.rowsAffected = 0
             }
 
-            res.insertId = rs.insertId;
-            res.rows = rs.rows;
-        };
+            res.insertId = rs.insertId
+            res.rows = rs.rows
+        }
 
         if (readOnly === true) {
             db.readTransaction(callback)
@@ -258,40 +258,37 @@ function simpleQuery(query, values, readOnly) {
             db.transaction(callback)
         }
 
-        res.ok = true;
+        res.ok = true
     } catch(e) {
         console.error((readOnly === true ? "read-only " : "") + "database query failed:",
                       "\n   ERROR  >", e,
                       "\n   QUERY  >", query,
-                      "\n   VALUES >", values);
+                      "\n   VALUES >", values)
         _notify("query-failed", false, {
                     exception: e,
                     query: query,
                     values: values
                 })
-        res.ok = false;
+        res.ok = false
     }
 
-    return res;
+    return res
 }
 
 function setSetting(key, value) {
-    simpleQuery('INSERT OR REPLACE INTO %1 VALUES (?, ?);'.arg(settingsTable),
-                [key, value]);
+    simpleQuery('INSERT OR REPLACE INTO %1 VALUES (?, ?);'.arg(settingsTable), [key, value])
 }
 
 function getSetting(key, fallback) {
-    var res = simpleQuery('SELECT value FROM %1 WHERE key=? LIMIT 1;'.
-                            arg(settingsTable),
-                          [key]);
+    var res = simpleQuery('SELECT value FROM %1 WHERE key=? LIMIT 1;'.arg(settingsTable), [key])
 
     if (res.rows.length > 0) {
-        res = defaultFor(res.rows.item(0).value, fallback);
+        res = defaultFor(res.rows.item(0).value, fallback)
     } else {
-        res = fallback;
+        res = fallback
     }
 
-    return res;
+    return res
 }
 
 function createSettingsTable(tx) {
@@ -302,8 +299,7 @@ function createSettingsTable(tx) {
     // using the internal settings provided by the database helper.
 
     guardedTx(tx, function(tx){
-        tx.executeSql('CREATE TABLE IF NOT EXISTS %1 (key TEXT UNIQUE, value TEXT);'.
-                      arg(settingsTable));
+        tx.executeSql('CREATE TABLE IF NOT EXISTS %1 (key TEXT UNIQUE, value TEXT);'.arg(settingsTable))
     })
 }
 
@@ -480,7 +476,7 @@ function __doInit(db) {
 
     if (initialVersion === "") {
         console.log("initializing a new database...")
-        db.transaction(createSettingsTable);
+        db.transaction(createSettingsTable)
         handle = _notify("init", true)
     } else if (!!latestVersion && initialVersion < latestVersion) {
         handle = _notify("upgrade", true,
@@ -546,18 +542,18 @@ function __doInit(db) {
 }
 
 function __vacuumDatabase() {
-    var db = getDatabase();
+    var db = getDatabase()
 
     try {
         db.transaction(function(tx) {
             // VACUUM cannot be executed inside a transaction, but the LocalStorage
             // module cannot execute queries without one. Thus we have to manually
             // end the transaction from inside the transaction...
-            tx.executeSql("END TRANSACTION;");
-            tx.executeSql("VACUUM;");
-        });
+            tx.executeSql("END TRANSACTION;")
+            tx.executeSql("VACUUM;")
+        })
     } catch(e) {
-        console.error("database vacuuming failed:\n", e);
+        console.error("database vacuuming failed:\n", e)
     }
 }
 
@@ -566,10 +562,10 @@ function __doDatabaseMaintenance() {
         'SELECT * FROM %1 WHERE key = "last_maintenance" \
              AND value >= date("now", "-60 day") LIMIT 1;'.
                 arg(settingsTable),
-        [], true);
+        [], true)
 
     if (last_maintenance.rows.length > 0) {
-        return;
+        return
     }
 
     console.log("running regular database maintenance...")
@@ -582,14 +578,14 @@ function __doDatabaseMaintenance() {
         } catch(e) {
             console.error("custom database maintenance failed:",
                           "\n   ERROR  >", e,
-                          "\n   STACK  >\n", e.stack);
+                          "\n   STACK  >\n", e.stack)
         }
     }
 
-    __vacuumDatabase();
+    __vacuumDatabase()
 
     console.log("maintenance finished")
-    setSetting("last_maintenance", new Date().toISOString());
+    setSetting("last_maintenance", new Date().toISOString())
 
     _notifyEnd(handle)
 }
