@@ -45,11 +45,76 @@ var settingsTable = "__local_settings"
 // access the database.
 var maintenanceCallback = function() {}
 
-// These functions will be called before and after any maintenance is run.
-// Both functions take no arguments and must not modify the database.
-var maintenanceStartSignal = null
-var maintenanceEndSignal = null
+// This function will be called when the database must notify
+// of events. This is handled for you automatically when you add
+// a MessageHandler {} to your main QML file.
+//
+// The signal handler function must not access the database.
+//
+// Signal arguments:
+// - string event           which event occurred
+// - string handle          unique ID identifying the event
+// - bool   busy            true if the event is a running process
+// - object data            additional details about the event
+//
+// Long running processes:
+// Events that take time send a busy signal and save the returned
+// handle. When they end, they send the "end" signal with the
+// previous handle.
+var databaseStatusSignal = null
 
+// Internal logging category prefix for log messages
+var _lc = "[Opal.LocalStorage] "
+var _eventCounter = 1
+var _userEventCounter = 1
+
+// Internal notification function.
+// Use the public function instead for custom events.
+function _notify(event, busy, data, __handle) {
+    if (!__handle) {
+        _eventCounter++
+        __handle = _eventCounter
+    }
+
+    console.log(_lc + event, "[" + __handle + "]",
+                (busy ? " (busy)" : ""),
+                !!data ? JSON.stringify(data) : "")
+
+    if (databaseStatusSignal instanceof Function) {
+        try {
+            databaseStatusSignal(event, String(__handle), busy, data)
+        } catch(e) {
+            console.error(_lc + "sending the status signal failed:",
+                          "\n   ERROR  >", e,
+                          "\n   STACK  >\n", e.stack);
+        }
+    }
+
+    return __handle
+}
+
+// Internal notification function.
+// Use the public function instead for custom events.
+function _notifyEnd(handle) {
+    _notify("end", false, null, handle)
+}
+
+// Public notification function.
+// Use this for your custom events.
+function notify(event, busy, data, __handle) {
+    if (!__handle) {
+        _userEventCounter++
+        __handle = String("user-%1").arg(_userEventCounter)
+    }
+
+    return _notify(event, busy, data, __handle)
+}
+
+// Public notification function.
+// Use this for your custom events.
+function notifyEnd(handle) {
+    _notify("end", false, null, handle)
+}
 
 //
 // BEGIN Database handling boilerplate
@@ -199,6 +264,11 @@ function simpleQuery(query, values, readOnly) {
                       "\n   ERROR  >", e,
                       "\n   QUERY  >", query,
                       "\n   VALUES >", values);
+        _notify("query-failed", false, {
+                    exception: e,
+                    query: query,
+                    values: values
+                })
         res.ok = false;
     }
 
@@ -406,10 +476,19 @@ function __doInit(db) {
     var initialVersion = db.version
     var previousVersion = Number(initialVersion)
     var nextVersion = null
+    var handle = null
 
     if (initialVersion === "") {
         console.log("initializing a new database...")
         db.transaction(createSettingsTable);
+        handle = _notify("init", true)
+    } else if (!!latestVersion && initialVersion < latestVersion) {
+        handle = _notify("upgrade", true,
+                         {from: initialVersion, to: latestVersion})
+    } else if (!!latestVersion && initialVersion !== String(latestVersion)) {
+        handle = _notify("invalid-version", false,
+                         {got: initialVersion, expected: latestVersion})
+        return false
     }
 
     if (initialVersion !== String(latestVersion)) {
@@ -438,6 +517,9 @@ function __doInit(db) {
                                   previousVersion, "to", nextVersion)
                     console.error("exception:\n", e)
                     db.changeVersion(db.version, previousVersion, function(tx){})
+                    _notify("upgrade-failed", false,
+                            {from: previousVersion, to: nextVersion,
+                             exception: e})
                     break
                 }
 
@@ -446,10 +528,15 @@ function __doInit(db) {
         }
     }
 
+    if (!!handle) {
+        _notifyEnd(handle)
+    }
+
     if (previousVersion !== latestVersion) {
         console.error("fatal: expected database version",
                       String(latestVersion),
                       "but loaded database has version", previousVersion)
+        _notify("invalid-version")
         return false
     }
 
@@ -487,16 +574,7 @@ function __doDatabaseMaintenance() {
 
     console.log("running regular database maintenance...")
 
-    if (maintenanceStartSignal instanceof Function) {
-        try {
-            console.log("- calling start signal")
-            maintenanceStartSignal()
-        } catch(e) {
-            console.error("sending the maintenance start signal failed:",
-                          "\n   ERROR  >", e,
-                          "\n   STACK  >\n", e.stack);
-        }
-    }
+    var handle = _notify("maintenance", true)
 
     if (maintenanceCallback instanceof Function) {
         try {
@@ -513,14 +591,5 @@ function __doDatabaseMaintenance() {
     console.log("maintenance finished")
     setSetting("last_maintenance", new Date().toISOString());
 
-    if (maintenanceEndSignal instanceof Function) {
-        try {
-            console.log("- calling end signal")
-            maintenanceEndSignal()
-        } catch(e) {
-            console.error("sending the maintenance end signal failed:",
-                          "\n   ERROR  >", e,
-                          "\n   STACK  >\n", e.stack);
-        }
-    }
+    _notifyEnd(handle)
 }

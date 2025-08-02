@@ -16,13 +16,19 @@ Column {
     readonly property bool _portrait: (__silica_applicationwindow_instance.orientation
                                       & Orientation.PortraitMask) !== 0
 
-    y: Math.round(_portrait ? Screen.height/4 : Screen.width/4)
     spacing: Theme.paddingLarge
     width: parent.width
+    height: childrenRect.height
+
+    Item {
+        width: parent.width
+        height: Math.round(_portrait ? Screen.height/4 : Screen.width/4)
+    }
 
     BusyIndicator {
         id: indicator
         running: true
+        height: running ? implicitHeight : 0
         size: BusyIndicatorSize.Large
         anchors.horizontalCenter: parent.horizontalCenter
 
@@ -32,6 +38,7 @@ Column {
 
     InfoLabel {
         id: label
+        textFormat: Text.AutoText
     }
 
     InfoLabel {
@@ -39,5 +46,6 @@ Column {
         color: Theme.secondaryHighlightColor
         opacity: Theme.opacityHigh
         font.pixelSize: Theme.fontSizeLarge
+        textFormat: Text.AutoText
     }
 }
