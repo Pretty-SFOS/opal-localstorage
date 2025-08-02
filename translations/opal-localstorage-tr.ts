@@ -2,16 +2,52 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="tr">
 <context>
-    <name>MaintenanceOverlay</name>
+    <name>Opal.LocalStorage</name>
     <message>
-        <location filename="../Opal/LocalStorage/MaintenanceOverlay.qml" line="67"/>
-        <source>Database Maintenance</source>
-        <translation>Veritabanı Bakımı</translation>
+        <location filename="../Opal/LocalStorage/MessageHandler.qml" line="94"/>
+        <source>Database upgrade failed</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Opal/LocalStorage/MaintenanceOverlay.qml" line="68"/>
+        <location filename="../Opal/LocalStorage/MessageHandler.qml" line="95"/>
+        <source>An error occurred while upgrading the database from version %1 to version %2. Please report this issue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Opal/LocalStorage/MessageHandler.qml" line="101"/>
+        <location filename="../Opal/LocalStorage/MessageHandler.qml" line="126"/>
+        <source>Developer information:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Opal/LocalStorage/MessageHandler.qml" line="110"/>
+        <source>Invalid database version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Opal/LocalStorage/MessageHandler.qml" line="111"/>
+        <source>The app cannot start because the database has version %1 but only version %2 is supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Opal/LocalStorage/MessageHandler.qml" line="118"/>
+        <source>Database Maintenance</source>
+        <translation type="unfinished">Veritabanı Bakımı</translation>
+    </message>
+    <message>
+        <location filename="../Opal/LocalStorage/MessageHandler.qml" line="119"/>
         <source>Please be patient and allow up to 30 seconds for this.</source>
-        <translation>Lütfen sabırlı olun ve bunun için 30 saniye kadar bekleyin.</translation>
+        <translation type="unfinished">Lütfen sabırlı olun ve bunun için 30 saniye kadar bekleyin.</translation>
+    </message>
+    <message>
+        <location filename="../Opal/LocalStorage/MessageHandler.qml" line="122"/>
+        <source>Database issue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Opal/LocalStorage/MessageHandler.qml" line="123"/>
+        <source>An unexpected issue occurred in the database. Try restarting the app.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
