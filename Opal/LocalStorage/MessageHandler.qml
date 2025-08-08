@@ -8,6 +8,64 @@ import Sailfish.Silica 1.0
 import "private"
 import "."
 
+/*!
+    \qmltype MessageHandler
+    \inqmlmodule Opal.LocalStorage
+    \since version 0.2.0
+
+    \brief Handle database errors and other signals.
+
+    The \c MessageHandler serves as a gateway for signals sent from
+    your database implementation that should be handled in the GUI.
+
+    By default, it automatically shows popups when fatal database
+    errors occur. For example, when the loaded database has an
+    unexpected version or when migration fails.
+
+    \section2 Usage
+
+    To handling message with the message handler, add it to your main
+    QML file.
+
+    \qml
+    // ...
+    import Opal.LocalStorage 1.0 as L
+
+    ApplicationWindow {
+        // ...
+
+        L.MessageHandler {}
+    }
+    \endqml
+
+    \section2 Custom signals
+
+    Custom events can be sent from your database script using the
+    \l Database::notify and \l Database::notifyEnd functions.
+
+    These events will trigger the \l userSignalReceived signal which
+    you can handle:
+
+    \qml
+    MessageHandler {
+        onUserSignalReceived: {
+            switch (event) {
+            case "my-event":
+                showOverlay(handle, "You won!",
+                            "You won the lottery. Wow.")
+                break
+            case "end":
+                hideOverlay(handle)
+                break
+            default:
+                console.warn("bug: unknown event received:", event, JSON.stringify(data))
+                break
+        }
+    }
+    \endqml
+
+    \sa LocalStorage, Database
+*/
 Item {
     id: root
 
@@ -20,14 +78,53 @@ Item {
             }
         }
     */
+
+    /*!
+      This signal is triggered when the storage backend sends an event.
+
+      See \l MessageHandler for an example how to handle this signal.
+
+      See \l Database::notify for a description of the parameters.
+
+      \sa MessageHandler, Database::notify, Database::notifyEnd
+    */
     signal userSignalReceived(var event, var handle, var busy, var data)
 
+    // Registry of all currently visible overlays:
+    // {event: overlay object}
     property var __events: ({})
+
+    // All user events are registered here:
+    // {event: 1}
+    // This is used to determine whether an "end" event should
+    // be handled internally or by the user.
     property var __userEvents: ({})
+
+    // Logging category prefix.
     readonly property string _lc: "[Opal.LocalStorage] MessageHandler:"
 
+    // Internal signal called by the storage script.
     signal __databaseSignalReceived(var event, var handle, var busy, var data)
 
+    /*!
+      This function shows a blocking overlay for an event.
+
+      The overlay will block all user interaction with the app
+      until it is hidden again using the \l hideOverlay function.
+
+      The event's \a handle must be provided so the overlay can
+      be hidden again. Subsequent calls to this function will
+      overlay overlays over laying overlays.
+
+      While an overlay with a certain \a handle is already visible,
+      it will not be shown again.
+
+      Define the strings \a title and \a description to include
+      content in overlay. If \a busy is \c true, the overlay will
+      include a busy spinner.
+
+      \sa hideOverlay
+    */
     function showOverlay(handle, title, description, busy) {
         var obj = overlayComponent.createObject(
             __silica_applicationwindow_instance,
@@ -47,6 +144,15 @@ Item {
         __events[handle] = obj
     }
 
+    /*!
+      This function hides an overlay for an event.
+
+      Call this to hide the overlay for event an event with
+      the handle \a handle that was previously shown using
+      \l showOverlay.
+
+      \sa hideOverlay
+    */
     function hideOverlay(handle) {
         if (__events.hasOwnProperty(handle)) {
             __events[handle].hide(true)
@@ -54,11 +160,17 @@ Item {
         }
     }
 
+    // TODO
+    function allowDismissOverlay(handle) {
+        // TODO
+    }
+
+    // Register the internal event signal with the storage script.
     function _register(force) {
-        if (!force && !!StorageHelper.databaseStatusSignal) {
+        if (!force && !!StorageHelper._DB_STATUS_SIGNAL) {
             console.warn(_lc, "database status signal already set!")
         } else {
-            StorageHelper.databaseStatusSignal = __databaseSignalReceived
+            StorageHelper._DB_STATUS_SIGNAL = __databaseSignalReceived
         }
     }
 
