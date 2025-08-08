@@ -167,10 +167,10 @@ Item {
 
     // Register the internal event signal with the storage script.
     function _register(force) {
-        if (!force && !!StorageHelper._DB_STATUS_SIGNAL) {
+        if (!force && !!LocalStorage._DB_STATUS_SIGNAL) {
             console.warn(_lc, "database status signal already set!")
         } else {
-            StorageHelper._DB_STATUS_SIGNAL = __databaseSignalReceived
+            LocalStorage._DB_STATUS_SIGNAL = __databaseSignalReceived
         }
     }
 
