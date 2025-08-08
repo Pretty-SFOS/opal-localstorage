@@ -5,7 +5,14 @@ SPDX-License-Identifier: GFDL-1.3-or-later
 
 # Changelog
 
-## upcoming
+## 0.3.0 (2025-08-08)
+
+- Renamed `StorageHelper.js` to `LocalStorage.js`
+- Added support for managing multiple databases by moving global functions and
+  settings into a new `Database` class
+- Added documentation for most properties and functions but it is still incomplete
+
+## 0.2.0 (2025-08-02)
 
 **Refactored signal/error handling:**
 
