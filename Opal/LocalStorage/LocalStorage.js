@@ -3,7 +3,6 @@
 //@ SPDX-License-Identifier: GPL-3.0-or-later
 //@ SPDX-FileCopyrightText: 2018-2025 Mirian Margiani
 
-// TODO rename to LocalStorage.js
 // TODO finish docs
 // TODO add db handle to all events
 // TODO enforce db handle format: /^[-0-9a-zA-Z]+$/
