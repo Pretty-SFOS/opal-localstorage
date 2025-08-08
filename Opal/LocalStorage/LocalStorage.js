@@ -857,12 +857,12 @@ function Database(handle, name, description) {
 
       \section2 Warnings:
 
+      \list
         \li The parameters are not thoroughly verified before they are
             used to build SQL queries. Mistakes can destroy your database.
         \li Order values start at 1.
         \li Invalid order values (\c 0, \c {< 0}, \c {> count}) will raise an exception.
             Use \c NULL as order to insert a row at the end.
-
 
       \sa migrations
     */
