@@ -15,8 +15,8 @@ This module provides a set of tools for handling local databases safely and exte
 - [ ] write documentation
 - [ ] write examples
 - [ ] include in gallery
-- [ ] setup Weblate
-- [ ] release
+- [x] setup Weblate
+- [x] release
 
 This module is already in use in some apps: [Weather](https://github.com/ichthyosaurus/harbour-meteoswiss), [Expenditure](https://github.com/ichthyosaurus/harbour-expenditure)
 
