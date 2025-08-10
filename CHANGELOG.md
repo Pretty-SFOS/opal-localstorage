@@ -5,6 +5,11 @@ SPDX-License-Identifier: GFDL-1.3-or-later
 
 # Changelog
 
+## 0.3.1 (2025-08-10)
+
+- Added translations: Arabic, Belarusian, Dutch (Belgium), Lithuanian, Norwegian Nynorsk, Persian, Portuguese, Portuguese (Brazil)
+- Updated translations: Ukrainian
+
 ## 0.3.0 (2025-08-08)
 
 - Renamed `StorageHelper.js` to `LocalStorage.js`
