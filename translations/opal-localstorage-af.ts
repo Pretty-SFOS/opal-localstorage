@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<TS version="2.1" language="af">
 <context>
     <name>Opal.LocalStorage</name>
     <message>
@@ -37,7 +37,7 @@
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="231"/>
         <source>Please be patient and allow up to 30 seconds for this.</source>
-        <translation>Пожалуйста, подождите. Это может занять до 30 секунд.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="234"/>

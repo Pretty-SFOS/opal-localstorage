@@ -37,7 +37,7 @@
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="231"/>
         <source>Please be patient and allow up to 30 seconds for this.</source>
-        <translation type="unfinished">Por favor, ten paciencia y espera hasta 30 segundos para esto.</translation>
+        <translation>Por favor, ten paciencia y espera hasta 30 segundos para esto.</translation>
     </message>
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="234"/>

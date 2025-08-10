@@ -37,7 +37,7 @@
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="231"/>
         <source>Please be patient and allow up to 30 seconds for this.</source>
-        <translation type="unfinished">Palun oota rahulikult kuni 30 sekundit selle tegevuse lõppemiseni.</translation>
+        <translation>Palun oota rahulikult kuni 30 sekundit selle tegevuse lõppemiseni.</translation>
     </message>
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="234"/>
