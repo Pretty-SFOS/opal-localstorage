@@ -6,33 +6,33 @@
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="206"/>
         <source>Database upgrade failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Mejora de base de datos fallada</translation>
     </message>
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="207"/>
         <source>An error occurred while upgrading the database from version %1 to version %2. Please report this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un error ocurrió mientras se actualizaba la base de datos de version %1 a version %2. Porfavor reporta este problema.</translation>
     </message>
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="213"/>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="238"/>
         <source>Developer information:</source>
-        <translation type="unfinished"></translation>
+        <translation>Información del desarrollador:</translation>
     </message>
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="222"/>
         <source>Invalid database version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión de la base de datos incorrecta</translation>
     </message>
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="223"/>
         <source>The app cannot start because the database has version %1 but only version %2 is supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>La app no puede iniciar ya que la base de datos tiene la versión %1, pero solo la versión %2 es la soportada.</translation>
     </message>
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="230"/>
         <source>Database Maintenance</source>
-        <translation type="unfinished">Mantenimiento de la base de datos</translation>
+        <translation>Mantenimiento de la base de datos</translation>
     </message>
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="231"/>
@@ -42,12 +42,12 @@
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="234"/>
         <source>Database issue</source>
-        <translation type="unfinished"></translation>
+        <translation>Problema de la base de datos</translation>
     </message>
     <message>
         <location filename="../Opal/LocalStorage/MessageHandler.qml" line="235"/>
         <source>An unexpected issue occurred in the database. Try restarting the app.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un error inesperado ha ocurrido en la base de datos. Intenta reiniciar la app.</translation>
     </message>
 </context>
 </TS>
