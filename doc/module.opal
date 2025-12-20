@@ -28,7 +28,7 @@ briefDescription: QML module for simple databases in Sailfish apps
 
 # description of this module: may use rich text and will be translated in
 # Opal Gallery. Line breaks can included with '\n' but should be avoided.
-description: This module provides a set of tools for handling local databases safely and extensibly.
+description: This module provides a set of tools for handling local databases safely and extensibly in JavaScript and Python.
 
 # colon-separated list of attribution strings for the whole module, in the same
 # form as SPDX FileCopyrightText entries
