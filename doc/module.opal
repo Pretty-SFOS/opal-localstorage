@@ -11,7 +11,7 @@
 #
 
 # current semantic version number, cf. https://semver.org
-version: 0.3.2
+version: 0.3.3
 
 # plain name as used in the module repository URL, will be prefixed with "opal-"
 # where necessary
@@ -32,7 +32,7 @@ description: This module provides a set of tools for handling local databases sa
 
 # colon-separated list of attribution strings for the whole module, in the same
 # form as SPDX FileCopyrightText entries
-attribution: 2018-2025 Mirian Margiani
+attribution: 2018-2026 Mirian Margiani
 
 # colon-separated list of this module's current maintainer(s)
 maintainers: Mirian Margiani

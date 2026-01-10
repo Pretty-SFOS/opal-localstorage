@@ -5,6 +5,11 @@ SPDX-License-Identifier: GFDL-1.3-or-later
 
 # Changelog
 
+## 0.3.3 (2026-01-10)
+
+- Added translations: Vietnamese
+- Updated translations: Norwegian Bokmål
+
 ## 0.3.2 (2025-12-24)
 
 - Added translations: Bengali, Chinese (Traditional Han script), Hindi, Malayalam, Thai
