@@ -18,5 +18,6 @@ SPDX-License-Identifier: GFDL-1.3-or-later
 - iloky_67
 - Mateus Liberale Gomes
 - Priit Jõerüüt
+- Frank Paul Silye
 
 - (Managed through Weblate's Languages add-on)
